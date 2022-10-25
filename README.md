@@ -1,6 +1,7 @@
 # Onyx
 
 Onyx is an experimental systems programming language heavily inspired by Rust.
+See [@onyxlang](https://github.com/onyxlang) on GitHub.
 
 ## Brief History
 
@@ -47,6 +48,7 @@ unsafe! puts($"Hello, world!") // OK
 A pointer with undefined lifetime is unsafe to access.
 A function-local pointer is safe to access, but it can not be returned.
 Access to other pointers is generally fragile.
+Introduction of the `fragile` safety level elides the exclusive mutable reference requirement.
 
 ```onyx
 threadsafe fn main() -> *Int32 {
@@ -56,20 +58,14 @@ threadsafe fn main() -> *Int32 {
 }
 ```
 
-<figure>
+Pointer casting safety table:
 
-| Lifetime  | To undefined | To `'static` | To caller | To local  
-| ---       | ---          | ---          | ---       | ---      
-| Undefined |              | Unsafe       | Unsafe    | Unsafe   
-| `'static` | Safe         |              | Fragile   | Fragile  
-| Caller    | Safe         | Unsafe       |           | Fragile  
-| Local     | Safe         | Unsafe       | Unsafe    |     
-
-<figcaption>Pointer casting safety table.</figcaption>
-
-</figure>
-
-Introduction of the `fragile` safety level elides the exclusive mutable reference requirement.
+| Lifetime  | To undefined | To `'static` | To caller | To local |
+| --------- | ------------ | ------------ | --------- | -------- |
+| Undefined |              | Unsafe       | Unsafe    | Unsafe   |
+| `'static` | Safe         |              | Fragile   | Fragile  |
+| Caller    | Safe         | Unsafe       |           | Fragile  |
+| Local     | Safe         | Unsafe       | Unsafe    |
 
 ## Macros
 
