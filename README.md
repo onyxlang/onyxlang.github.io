@@ -78,12 +78,12 @@ Onyx features a flexible macro system for code augmentation.
 Macros are written in a line-oriented language (like Lua) with rich access to the compilation context (AST nodes, environment etc).
 
 `#{{ "{" }}% %}` is a non-emitting macro invocation operator.
-`#{{ }}` emits the result of the macro invocation into code.
+`#{{ "{" }}{ }}` emits the result of the macro invocation into code.
 
 ```onyx
 fn main() {
   #{{ "{" }}% for i in 1..3 do %}
-    puts(#{{ i }})
+    puts(#{{ "{" }}{ i }})
   #{{ "{" }}% end %}
 
   // The macro expands literally to:
@@ -97,7 +97,7 @@ _Delayed macros_ are prefixed with `\` and evaluated not at the time of syntax p
 
 ```onyx
 pub fn foo<T>(x: T) {
-  puts(#\{{ T.name.stringify() }})
+  puts(#\{{ "{" }}{ T.name.stringify() }})
 }
 
 foo(42)    // puts("Int32")
