@@ -77,14 +77,14 @@ fn main() {
 Onyx features a flexible macro system for code augmentation.
 Macros are written in a line-oriented language (like Lua) with rich access to the compilation context (AST nodes, environment etc).
 
-`#{% %}` is a non-emitting macro invocation operator.
+`#{{ "{" }}% %}` is a non-emitting macro invocation operator.
 `#{{ }}` emits the result of the macro invocation into code.
 
 ```onyx
 fn main() {
-  #{% for i in 1..3 do %}
+  #{{ "{" }}% for i in 1..3 do %}
     puts(#{{ i }})
-  #{% end %}
+  #{{ "{" }}% end %}
 
   // The macro expands literally to:
   // puts(1)
@@ -110,7 +110,7 @@ In Onyx, instead of `macro!` syntax, a macro function is called with `#macro`, w
 This is done to reduce "screaming" code.
 
 ```onyx
-pub macro foo(times) #\{%
+pub macro foo(times) #\{{ "{" }}%
   for i in 1..times do
     emit("puts(" .. i .. ");")
   end
@@ -300,11 +300,11 @@ pub struct Foo<T: #'bool> { }
 forall T
 impl Foo<T> {
   pub fn foo() {
-    #{% if T.value then %}
+    #{{ "{" }}% if T.value then %}
       puts("true")
-    #{% else %}
+    #{{ "{" }}% else %}
       puts("false")
-    #{% end %}
+    #{{ "{" }}% end %}
   }
 }
 
