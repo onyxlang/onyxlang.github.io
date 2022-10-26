@@ -22,15 +22,15 @@ My latest endeavor is to implement the compiler in Rust.
 And it turns out that Rust is mostly awesome, still having some quirks standing in the way of everyday programming.
 Looks like the best application for Onyx would be an inter-set of Rust tuned for high-level programming; this would allow to leverage the existing ecosystem and tooling.
 
----
+## Reference
 
-## Basic principles
+### Basic principles
 
 An Onyx program may directly call Rust code, but not vice versa.
 Onyx programs assume Rust and C stdlibs presence.
 Onyx may use (properly licensed) third-party crates on the language level.
 
-## Safety
+### Safety
 
 In Onyx, there are three safety levels: unsafe, fragile and safe.
 Compared to Rust, fragile is the level in-between unsafe and safe.
@@ -72,7 +72,7 @@ fn main() {
 }
 ```
 
-## Macros
+### Macros
 
 Onyx features a flexible macro system for code augmentation.
 Macros are written in a line-oriented language (like Lua) with rich access to the compilation context (AST nodes, environment etc).
@@ -104,7 +104,7 @@ foo(42)    // puts("Int32")
 foo("bar") // puts("String")
 ```
 
-### Macro functions
+#### Macro functions
 
 In Onyx, instead of `macro!` syntax, a macro function is called with `#macro`, which is also applicable to Rust macro calls.
 This is done to reduce "screaming" code.
@@ -122,11 +122,11 @@ fn main() {
 }
 ```
 
-## FFI
+### FFI
 
 An FFI entity is referenced from Onyx via the `$` prefix, followed by a C (and only C) entity.
 
-### FFI literals
+#### FFI literals
 
 No need to for importing a `libc` crate.
 
@@ -143,7 +143,7 @@ fn main() {
 }
 ```
 
-### Extern
+#### Extern
 
 An `extern` statement generally uses C syntax for declarations.
 
@@ -179,7 +179,7 @@ fn main() {
 }
 ```
 
-## Structs
+### Structs
 
 `new T` is an alias to `T::new`.
 
@@ -187,11 +187,11 @@ A struct field name may end with a single `?` (e.g. `pub ready?: bool`).
 
 A `get x` modifier would implement a public getter `pub fn x()` for the field.
 
-## Literals
+### Literals
 
 `void` is an alias to `()`.
 
-### Heredocs
+#### Heredocs
 
 ```onyx
 fn main() {
@@ -208,11 +208,11 @@ fn main() {
 } 
 ```
 
-## Functions
+### Functions
 
 `fn foo() ->> x` infers type from its return value `x`. 
 
-### Closures
+#### Closures
 
 A closure requires explicit capturing.
 
@@ -224,7 +224,7 @@ fn main() {
 }
 ```
 
-### Generators
+#### Generators
 
 A generator expands to literal code iff not moved.
 This allows a generator to implicitly capture all the variables in its scope.
@@ -249,7 +249,7 @@ fn main() {
 }
 ```
 
-## Variables
+### Variables
 
 `x <-> y` to swap values; `x <<-> y` to swap values, returning the old value of `x` (_eject swap_).
 
@@ -259,7 +259,7 @@ Allow question mark in identifiers:
 pub fn ready?() -> bool !Err;
 ```
 
-## Errors
+### Errors
 
 Use `try expr` (Zig-like) instead of `expr?` (Rust-like).
 
@@ -288,7 +288,7 @@ fn main() -> i32 !&$char {
 }
 ```
 
-## Templates
+### Templates
 
 `t<T>` instead of `t::<T>`.
 
@@ -314,7 +314,11 @@ fn main() {
 }
 ```
 
-## Async
+### Option
+
+`T??` is a shortcut to `Option<T>`.
+
+### Async
 
 Onyx uses a well-known third-party module to implement async/await, such as tokio.
 `#[tokio::main]` is implied for the entry-file `fn main()`.
@@ -330,19 +334,15 @@ async fn foo() -> T !E {
 
 IDEA: `~> T` is a shortcut to `-> Future<T>`.
 
-## Option
-
-`T??` is a shortcut to `Option<T>`.
-
-## Semicolons
+### Semicolons
 
 If a statement or expression evaluates to `void`, a semicolon is optional.
 
-## More ideas
+### More ideas
 
 * Implicitly wrap top-level code into `fn main()`.
 
-### Imports
+#### Imports
 
 `import { foo } from "bar.nx"` to import from Onyx files.
 Familiar `use bar::foo` syntax for Rust modules.
